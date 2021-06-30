@@ -1,0 +1,26 @@
+{
+  "name": "todos-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "yarn nodemon src/server/index.js "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.6.0",
+    "postgresql": "^0.0.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.34"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.8"
+  }
+}
