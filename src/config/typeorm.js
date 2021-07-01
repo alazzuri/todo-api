@@ -16,6 +16,7 @@ export async function connect() {
     password: DB_PASSWORD,
     entities: [UserEntity, TaskEntity],
     synchronize: !IS_PRODUCTION,
+    ssl: true,
   });
 
   console.log(`Database connected ✅`);
