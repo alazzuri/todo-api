@@ -12,7 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "https://ctd-todo-api.herokuapp.com/",
+  "host": "https://ctd-todo-api.herokuapp.com",
   "basePath": "/v1",
   "tags": [
     {
