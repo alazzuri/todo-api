@@ -20,15 +20,4 @@ import { enviroment } from "../config/enviroment.js";
   // USERS
   server.use(userRouter);
   server.use(taskRoutes);
-
-  // server.post("/v1/users/", (req, res) => {
-  //   const { createdUserId } = req;
-  //   res.status(201).json({ userId: createdUserId });
-  // });
-
-  // server.post("/v1/users/login", (req, res) => {
-  //   const { jwtToken } = req;
-  //   const loginResponse = { token: jwtToken };
-  //   res.status(200).json(loginResponse);
-  // });
 })();
