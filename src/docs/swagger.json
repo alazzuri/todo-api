@@ -1,0 +1,426 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Este documento contiene la documentación para utilizar la API de TODOs",
+    "version": "1.0.0",
+    "title": "TODOs API",
+    "contact": {
+      "email": "info@todos.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "tasks",
+      "description": "Operaciones relacionadas a tareas"
+    },
+    {
+      "name": "users",
+      "description": "Operaciones relacionadas a los usuarios"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/tasks": {
+      "get": {
+        "tags": ["tasks"],
+        "summary": "Listado de tareas del usuario",
+        "description": "Devuelve un listado de tareas del usuario",
+        "operationId": "getTasks",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "JWT",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/tasks_list"
+              }
+            }
+          },
+          "401": {
+            "description": "Requiere Autorización"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        },
+        "security": [
+          {
+            "store_auth": ["write:tasks"]
+          }
+        ]
+      },
+      "post": {
+        "tags": ["tasks"],
+        "summary": "Crea una nueva tarea del usuario",
+        "operationId": "createTask",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto con la descripción de la tarea que debe agregarse al listado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/task_upload"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/tasks_list"
+            }
+          },
+          "400": {
+            "description": "Alguno de los datos requeridos está incompleto"
+          },
+          "401": {
+            "description": "Requiere Autorización"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        },
+        "security": [
+          {
+            "store_auth": ["write:tasks"]
+          }
+        ]
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "tags": ["tasks"],
+        "summary": "Obtiene una determinada tarea",
+        "description": "Devuelve información sobre una tarea en particular",
+        "operationId": "getOneTask",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la tarea a obtener",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "JWT",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/tasks_list"
+            }
+          },
+          "400": {
+            "description": "ID Inválido"
+          },
+          "401": {
+            "description": "Requiere Autorización"
+          },
+          "404": {
+            "description": "Tarea inexistente"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        },
+        "security": [
+          {
+            "store_auth": ["write:tasks"]
+          }
+        ]
+      },
+      "put": {
+        "tags": ["tasks"],
+        "summary": "Actualiza una tarea existente",
+        "description": "",
+        "operationId": "updateTask",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la tarea a actualizar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "JWT",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Propiedades de la tarea a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/task_upload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/tasks_list"
+            }
+          },
+          "400": {
+            "description": "ID Inválido"
+          },
+          "401": {
+            "description": "Requiere Autorización"
+          },
+          "404": {
+            "description": "Tarea inexistente"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        },
+        "security": [
+          {
+            "store_auth": ["write:tasks"]
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["tasks"],
+        "summary": "Elimina una tarea",
+        "description": "",
+        "operationId": "deleteTask",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la tarea a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarea eliminada satisfactoriamente"
+          },
+          "400": {
+            "description": "ID Inválido"
+          },
+          "401": {
+            "description": "Requiere Autorización"
+          },
+          "404": {
+            "description": "Tarea inexistente"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        },
+        "security": [
+          {
+            "store_auth": ["write:tasks"]
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Crea un usuario",
+        "description": "Crea un nuevo usuario en la base de datos.",
+        "operationId": "registerUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Información del usuario a crear",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user_register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación Exitosa. Retorna un JWT.",
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            }
+          },
+          "400": {
+            "description": "El usuario ya se encuentra registrado / Alguno de los datos requeridos está incompleto"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Loguea al usuario dentro de la API",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Credenciales",
+            "in": "body",
+            "description": "El nombre de usuario y la contraseña del usuario",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación Exitosa. Retorna un JWT.",
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            }
+          },
+          "400": {
+            "description": "Contraseña incorrecta"
+          },
+          "404": {
+            "description": "El usuario no existe"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "store_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "localhost/v1/users/login",
+      "flow": "implicit",
+      "scopes": {
+        "write:tasks": "Crear y modificar tareas"
+      }
+    }
+  },
+  "definitions": {
+    "user_register": {
+      "type": "object",
+      "required": ["firstname", "lastname", "email", "password"],
+      "properties": {
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "tasks_list": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1
+        },
+        "description": {
+          "type": "string",
+          "example": "Aprender Javascript"
+        },
+        "completed": {
+          "type": "boolean",
+          "example": false
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-06-30T22:53:09.549Z"
+        }
+      }
+    },
+    "task_upload": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "Aprender Javascript"
+        },
+        "completed": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}
