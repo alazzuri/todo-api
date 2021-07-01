@@ -1,9 +1,9 @@
 import { getRepository } from "typeorm";
 import { UserEntity } from "../../entities/user.js";
 import {
-  clientErrors,
   invalidPasswordException,
   missingInputException,
+  sendErrorResponse,
   userDoesNotExistException,
   userExistException,
 } from "../../exceptions/index.js";
@@ -37,10 +37,7 @@ export const registerUser = async (req, res) => {
 
     return res.status(201).json({ jwt });
   } catch (error) {
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
 
@@ -64,9 +61,6 @@ export const loginUser = async (req, res) => {
 
     return res.status(201).json({ jwt });
   } catch (error) {
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };

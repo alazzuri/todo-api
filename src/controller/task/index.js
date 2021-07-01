@@ -1,11 +1,9 @@
 import { getRepository } from "typeorm";
 import { TaskEntity } from "../../entities/task.js";
 import {
-  authErrors,
-  clientErrors,
   invalidIdExeption,
-  JWT_ERROR,
   missingInputException,
+  sendErrorResponse,
   taskDoesNotExistException,
 } from "../../exceptions/index.js";
 import { TASK_DELETED } from "../../utils/constants.js";
@@ -22,13 +20,7 @@ export const getAllTasks = async (req, res) => {
 
     return res.status(200).json(tasks);
   } catch (error) {
-    if (error.name === JWT_ERROR || authErrors.includes(error.message))
-      return res.status(401).json(error.message);
-
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
 
@@ -50,13 +42,7 @@ export const getOneTask = async (req, res) => {
 
     return res.status(200).json(existingTask);
   } catch (error) {
-    if (error.name === JWT_ERROR || authErrors.includes(error.message))
-      return res.status(401).json(error.message);
-
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
 
@@ -80,15 +66,9 @@ export const createTask = async (req, res) => {
       where: { id: createdTask.identifiers[0].id },
     });
 
-    return res.status(200).json(taskData);
+    return res.status(201).json(taskData);
   } catch (error) {
-    if (error.name === JWT_ERROR || authErrors.includes(error.message))
-      return res.status(401).json(error.message);
-
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
 
@@ -114,13 +94,7 @@ export const updateTask = async (req, res) => {
 
     return res.status(200).json(savedTask);
   } catch (error) {
-    if (error.name === JWT_ERROR || authErrors.includes(error.message))
-      return res.status(401).json(error.message);
-
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
 
@@ -144,12 +118,6 @@ export const deleteTask = async (req, res) => {
 
     return res.status(200).json(TASK_DELETED);
   } catch (error) {
-    if (error.name === JWT_ERROR || authErrors.includes(error.message))
-      return res.status(401).json(error.message);
-
-    if (clientErrors.includes(error.message))
-      return res.status(400).json(error.message);
-
-    return res.status(500).json(error.message);
+    sendErrorResponse(error, res);
   }
 };
