@@ -12,7 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost",
+  "host": "https://ctd-todo-api.herokuapp.com/",
   "basePath": "/v1",
   "tags": [
     {
@@ -355,7 +355,7 @@
   "securityDefinitions": {
     "store_auth": {
       "type": "oauth2",
-      "authorizationUrl": "localhost/v1/users/login",
+      "authorizationUrl": "https://ctd-todo-api.herokuapp.com/v1/users/login",
       "flow": "implicit",
       "scopes": {
         "write:tasks": "Crear y modificar tareas"
