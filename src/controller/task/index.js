@@ -92,7 +92,6 @@ export const updateTask = async (req, res) => {
 
     const savedTask = await taskRepository.save(updatedTask);
 
-    console.log({ savedTask, body: req.body });
     return res.status(200).json(savedTask);
   } catch (error) {
     sendErrorResponse(error, res);

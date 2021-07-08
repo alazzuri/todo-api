@@ -19,8 +19,6 @@ export const registerUser = async (req, res) => {
 
     const missingKey = registerInput.filter((key) => !inputKeys.includes(key));
 
-    console.log({ inputKeys, missingKey, body: req.body });
-
     if (missingKey.length > 0) throw missingInputException;
 
     const { email } = req.body;
@@ -71,7 +69,6 @@ export const getUsers = async (_, res) => {
   const userRepository = getRepository(UserEntity);
 
   const users = await userRepository.find();
-  console.log(users);
 
   return res.status(200).json(users);
 };
