@@ -66,3 +66,12 @@ export const loginUser = async (req, res) => {
     sendErrorResponse(error, res);
   }
 };
+
+export const getUsers = async (_, res) => {
+  const userRepository = getRepository(UserEntity);
+
+  const users = await userRepository.find();
+  console.log(users);
+
+  return res.status(200).json(users);
+};

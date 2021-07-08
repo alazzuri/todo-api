@@ -365,12 +365,12 @@
   "definitions": {
     "user_register": {
       "type": "object",
-      "required": ["firstname", "lastname", "email", "password"],
+      "required": ["firstName", "lastName", "email", "password"],
       "properties": {
-        "firstname": {
+        "firstName": {
           "type": "string"
         },
-        "lastname": {
+        "lastName": {
           "type": "string"
         },
         "email": {
