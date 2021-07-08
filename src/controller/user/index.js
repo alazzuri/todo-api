@@ -17,9 +17,11 @@ export const registerUser = async (req, res) => {
   try {
     const inputKeys = Object.keys(req.body);
 
-    const missingKey = registerInput.filter((key) => !inputKeys.includes(key));
+    const missingKey = registerInput.filter(
+      (key) => !inputKeys.includes(key.toLowerCase())
+    );
 
-    console.log({ inputKeys, missingKey });
+    console.log({ inputKeys, missingKey, body: req.body });
 
     if (missingKey.length > 0) throw missingInputException;
 
