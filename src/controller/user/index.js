@@ -19,6 +19,8 @@ export const registerUser = async (req, res) => {
 
     const missingKey = registerInput.filter((key) => !inputKeys.includes(key));
 
+    console.log({ inputKeys, missingKey });
+
     if (missingKey.length > 0) throw missingInputException;
 
     const { email } = req.body;
