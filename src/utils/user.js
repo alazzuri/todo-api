@@ -8,3 +8,11 @@ export const getUserIdFromJwt = ({ authorization: jwt }) => {
 
   return id;
 };
+
+export const getEmailFromJwt = ({ authorization: jwt }) => {
+  if (!jwt) throw authRequiredException;
+
+  const { email } = verifyWithJwt(jwt);
+
+  return email;
+};

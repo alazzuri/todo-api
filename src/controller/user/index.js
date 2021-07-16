@@ -9,7 +9,7 @@ import {
 } from "../../exceptions/index.js";
 import { findElementByArgs } from "../../utils/db.js";
 import { signWithJwt } from "../../utils/jwt.js";
-import { getUserIdFromJwt } from "../../utils/user.js";
+import { getEmailFromJwt } from "../../utils/user.js";
 import { registerInput } from "../user/inputSchema.js";
 
 export const registerUser = async (req, res) => {
@@ -82,13 +82,13 @@ export const getMe = async (req, res) => {
   const userRepository = getRepository(UserEntity);
 
   try {
-    const id = getUserIdFromJwt(req.headers);
+    const email = getEmailFromJwt(req.headers);
 
-    const user = await userRepository.findOne({ where: { id } });
+    const user = await userRepository.findOne({ where: { email } });
 
     if (!user) throw userDoesNotExistException;
 
-    const { firstName, lastName, email } = user;
+    const { firstName, lastName, id } = user;
 
     return res.status(200).json({ id, firstName, lastName, email });
   } catch (error) {
