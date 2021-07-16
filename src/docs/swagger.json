@@ -350,6 +350,38 @@
           }
         }
       }
+    },
+    "/users/getMe": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Obtiene la información del usuario",
+        "description": "",
+        "operationId": "getMe",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación Exitosa",
+            "schema": {
+              "$ref": "#/definitions/user_getMe"
+            }
+          },
+          "404": {
+            "description": "El usuario no existe"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -377,6 +409,23 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "user_getMe": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         }
       }

@@ -9,6 +9,7 @@ import {
 } from "../../exceptions/index.js";
 import { findElementByArgs } from "../../utils/db.js";
 import { signWithJwt } from "../../utils/jwt.js";
+import { getUserIdFromJwt } from "../../utils/user.js";
 import { registerInput } from "../user/inputSchema.js";
 
 export const registerUser = async (req, res) => {
@@ -68,7 +69,29 @@ export const loginUser = async (req, res) => {
 export const getUsers = async (_, res) => {
   const userRepository = getRepository(UserEntity);
 
-  const users = await userRepository.find();
+  try {
+    const users = await userRepository.find();
 
-  return res.status(200).json(users);
+    return res.status(200).json(users);
+  } catch (error) {
+    sendErrorResponse(error, res);
+  }
+};
+
+export const getMe = async (req, res) => {
+  const userRepository = getRepository(UserEntity);
+
+  try {
+    const id = getUserIdFromJwt(req.headers);
+
+    const user = await userRepository.findOne({ where: { id } });
+
+    if (!user) throw userDoesNotExistException;
+
+    const { firstName, lastName, email } = user;
+
+    return res.status(200).json({ id, firstName, lastName, email });
+  } catch (error) {
+    sendErrorResponse(error, res);
+  }
 };
