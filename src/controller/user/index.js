@@ -24,17 +24,14 @@ export const registerUser = async (req, res) => {
 
     const { email } = req.body;
 
-    // const existingUser = await findElementByArgs(userRepository, { email });
+    const existingUser = await findElementByArgs(userRepository, { email });
 
-    // if (existingUser) {
-    //   throw userExistException;
-    // }
+    if (existingUser) {
+      throw userExistException;
+    }
 
     const newUser = userRepository.create(req.body);
-    console.log("Antes del insert");
     const createdUser = await userRepository.insert(newUser);
-    console.log("Despues del insert");
-    s;
 
     const jwt = signWithJwt({ email, id: createdUser.identifiers[0].id });
 
