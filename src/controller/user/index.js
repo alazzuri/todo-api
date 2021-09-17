@@ -31,8 +31,10 @@ export const registerUser = async (req, res) => {
     }
 
     const newUser = userRepository.create(req.body);
-
+    console.log("Antes del insert");
     const createdUser = await userRepository.insert(newUser);
+    console.log("Despues del insert");
+    s;
 
     const jwt = signWithJwt({ email, id: createdUser.identifiers[0].id });
 
