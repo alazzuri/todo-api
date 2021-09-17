@@ -25,7 +25,7 @@ export const TaskEntity = new EntitySchema({
     },
   },
   relations: {
-    user: {
+    userId: {
       target: "User",
       type: "many-to-one",
       joinTable: true,
