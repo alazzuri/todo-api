@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import typeorm from "typeorm";
 import { TaskEntity } from "../../entities/task.js";
 import {
   invalidIdExeption,
@@ -9,6 +9,8 @@ import {
 import { TASK_DELETED } from "../../utils/constants.js";
 import { getUserIdFromJwt } from "../../utils/user.js";
 import { taskInput } from "./inputSchema.js";
+
+const { getRepository } = typeorm;
 
 export const getAllTasks = async (req, res) => {
   const taskRepository = getRepository(TaskEntity);
